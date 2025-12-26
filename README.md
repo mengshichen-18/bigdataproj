@@ -4,7 +4,7 @@
 
 ## 数据
 
-将数据放到：`dataset/data_format1/`（脚本默认读取该路径）。
+将数据放到：`dataset/data_format1/`（脚本默认读取该路径）。`dataset/data_format2/`没用上但我忘了为啥
 
 ## 运行 Baselines（A/B/C）
 
