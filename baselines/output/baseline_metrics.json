@@ -158,43 +158,43 @@
   "baseline_c_top_importance": [
     {
       "feature": "num__last7_buy_share",
-      "importance": 0.2866554260253906
+      "importance": 353.32489013671875
     },
     {
       "feature": "num__total_buy",
-      "importance": 0.0930001512169838
+      "importance": 114.62985229492188
     },
     {
       "feature": "num__cart_to_buy_rate",
-      "importance": 0.09219729900360107
+      "importance": 113.64027404785156
     },
     {
       "feature": "num__last7_buy",
-      "importance": 0.04634622484445572
+      "importance": 57.12529373168945
     },
     {
       "feature": "num__total_action",
-      "importance": 0.04089684784412384
+      "importance": 50.40851593017578
     },
     {
       "feature": "cat__gender_unk",
-      "importance": 0.02661191113293171
+      "importance": 32.801231384277344
     },
     {
       "feature": "num__recent_activity_ratio",
-      "importance": 0.02259848639369011
+      "importance": 27.8543758392334
     },
     {
       "feature": "cat__age_range_2.0",
-      "importance": 0.02118382230401039
+      "importance": 26.110692977905273
     },
     {
       "feature": "num__total_click",
-      "importance": 0.021151382476091385
+      "importance": 26.070709228515625
     },
     {
       "feature": "num__buy_rate_total",
-      "importance": 0.020620351657271385
+      "importance": 25.41617202758789
     }
   ],
   "tree_model": "xgboost"

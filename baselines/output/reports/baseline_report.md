@@ -79,13 +79,13 @@ Top feature importances:
 
 | Feature | Importance |
 | --- | --- |
-| num__last7_buy_share | 0.286655 |
-| num__total_buy | 0.093000 |
-| num__cart_to_buy_rate | 0.092197 |
-| num__last7_buy | 0.046346 |
-| num__total_action | 0.040897 |
-| cat__gender_unk | 0.026612 |
-| num__recent_activity_ratio | 0.022598 |
-| cat__age_range_2.0 | 0.021184 |
-| num__total_click | 0.021151 |
-| num__buy_rate_total | 0.020620 |
+| num__last7_buy_share | 353.324890 |
+| num__total_buy | 114.629852 |
+| num__cart_to_buy_rate | 113.640274 |
+| num__last7_buy | 57.125294 |
+| num__total_action | 50.408516 |
+| cat__gender_unk | 32.801231 |
+| num__recent_activity_ratio | 27.854376 |
+| cat__age_range_2.0 | 26.110693 |
+| num__total_click | 26.070709 |
+| num__buy_rate_total | 25.416172 |

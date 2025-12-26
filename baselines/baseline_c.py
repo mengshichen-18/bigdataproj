@@ -132,20 +132,46 @@ def train_baseline_c(train_feat: pd.DataFrame, out_dir: Path, model_name: str):
     model.fit(X_all_t, y)
 
     feature_names = preprocess.get_feature_names_out()
-    if hasattr(model, "feature_importances_"):
-        importances = model.feature_importances_
-    else:
-        importances = np.zeros(len(feature_names))
+    report_importance = None
+    if model_name == "xgboost":
+        booster = model.get_booster()
+        name_to_idx = {name: idx for idx, name in enumerate(feature_names)}
 
-    importance_df = pd.DataFrame(
-        {"feature": feature_names, "importance": importances}
-    ).sort_values("importance", ascending=False)
+        def _expand(score_dict):
+            vals = np.zeros(len(feature_names), dtype=float)
+            for key, val in score_dict.items():
+                if key.startswith("f") and key[1:].isdigit():
+                    idx = int(key[1:])
+                else:
+                    idx = name_to_idx.get(key)
+                if idx is not None and 0 <= idx < len(vals):
+                    vals[idx] = float(val)
+            return vals
+
+        gain_vals = _expand(booster.get_score(importance_type="gain"))
+        weight_vals = _expand(booster.get_score(importance_type="weight"))
+        importance_df = pd.DataFrame(
+            {"feature": feature_names, "gain": gain_vals, "weight": weight_vals}
+        ).sort_values("gain", ascending=False)
+        report_importance = importance_df[["feature", "gain"]].rename(
+            columns={"gain": "importance"}
+        )
+    else:
+        if hasattr(model, "feature_importances_"):
+            importances = model.feature_importances_
+        else:
+            importances = np.zeros(len(feature_names))
+
+        importance_df = pd.DataFrame(
+            {"feature": feature_names, "importance": importances}
+        ).sort_values("importance", ascending=False)
+        report_importance = importance_df
     importance_path = out_dir / f"baseline_c_{model_name}_importance.csv"
     importance_df.to_csv(importance_path, index=False)
 
     payload = load_payload(out_dir)
     payload["metrics"]["baseline_c"] = metrics
-    payload["baseline_c_top_importance"] = importance_df.head(10).to_dict("records")
+    payload["baseline_c_top_importance"] = report_importance.head(10).to_dict("records")
     payload["tree_model"] = model_name
     save_payload(out_dir, payload)
     write_report(out_dir / "reports", payload)
