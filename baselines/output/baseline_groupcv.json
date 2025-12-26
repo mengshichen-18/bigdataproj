@@ -1,0 +1,12 @@
+{
+  "n_splits": 5,
+  "seed": 42,
+  "baseline_a": {
+    "oof_auc": 0.591186068233814,
+    "oof_logloss": 0.679030767669456
+  },
+  "baseline_b_l2": {
+    "oof_auc": 0.6188041121736052,
+    "oof_logloss": 0.6683437369805596
+  }
+}

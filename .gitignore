@@ -1,0 +1,4 @@
+/dataset/*
+baselines/output/features/*
+baselines/output/ours_v1/features/*
+*.pyc
