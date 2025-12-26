@@ -7,7 +7,7 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import StratifiedGroupKFold, train_test_split
 from sklearn.pipeline import Pipeline
 from tqdm import tqdm
 
@@ -53,24 +53,30 @@ def train_logistic(train_feat: pd.DataFrame, penalty: str, out_dir: Path):
     numeric_features = get_numeric_features()
     X = train_feat[numeric_features + CATEGORICAL_FEATURES]
     y = train_feat["label"].values
+    groups = train_feat["user_id"].values
 
-    X_train, X_val, y_train, y_val = train_test_split(
-        X, y, test_size=0.2, random_state=RANDOM_STATE, stratify=y
-    )
+    def build_model():
+        preprocess = build_logistic_preprocess(numeric_features, CATEGORICAL_FEATURES)
+        clf = LogisticRegression(
+            penalty=penalty,
+            solver="saga",
+            max_iter=2000,
+            class_weight="balanced",
+            n_jobs=-1,
+        )
+        return Pipeline(steps=[("preprocess", preprocess), ("clf", clf)])
 
-    preprocess = build_logistic_preprocess(numeric_features, CATEGORICAL_FEATURES)
-    clf = LogisticRegression(
-        penalty=penalty,
-        solver="saga",
-        max_iter=2000,
-        class_weight="balanced",
-        n_jobs=-1,
-    )
+    cv = StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=RANDOM_STATE)
+    oof = np.zeros(len(y), dtype=np.float32)
+    for tr_idx, va_idx in cv.split(X, y, groups):
+        model = build_model()
+        model.fit(X.iloc[tr_idx], y[tr_idx])
+        oof[va_idx] = model.predict_proba(X.iloc[va_idx])[:, 1]
 
-    model = Pipeline(steps=[("preprocess", preprocess), ("clf", clf)])
-    model.fit(X_train, y_train)
-    probs = model.predict_proba(X_val)[:, 1]
-    metrics = evaluate_probs(y_val, probs)
+    metrics = evaluate_probs(y, oof)
+
+    model = build_model()
+    model.fit(X, y)
 
     feature_names = model.named_steps["preprocess"].get_feature_names_out()
     coef = model.named_steps["clf"].coef_.ravel()

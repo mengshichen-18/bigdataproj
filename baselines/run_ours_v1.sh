@@ -9,18 +9,21 @@ OUT_DIR="baselines/output"
 CHUNK_SIZE=1000000
 
 # Model options:
-# - hgb: sklearn HistGradientBoosting (no extra deps)
 # - xgboost: requires `pip install xgboost`
 # - lightgbm: requires `pip install lightgbm`
-MODEL="${MODEL:-}"
-if [[ -z "${MODEL}" ]]; then
-  if python -c "import xgboost" >/dev/null 2>&1; then
-    MODEL="xgboost"
-  elif python -c "import lightgbm" >/dev/null 2>&1; then
-    MODEL="lightgbm"
-  else
-    MODEL="hgb"
-  fi
+# - hgb: sklearn HistGradientBoosting (no extra deps)
+MODEL="${MODEL:-xgboost}"
+
+if [[ "${MODEL}" == "xgboost" ]]; then
+  python -c "import xgboost" >/dev/null 2>&1 || {
+    echo "xgboost is not installed. Install it or set MODEL=lightgbm/hgb." >&2
+    exit 1
+  }
+elif [[ "${MODEL}" == "lightgbm" ]]; then
+  python -c "import lightgbm" >/dev/null 2>&1 || {
+    echo "lightgbm is not installed. Install it or set MODEL=xgboost/hgb." >&2
+    exit 1
+  }
 fi
 
 EARLY_STOP_METRIC="${EARLY_STOP_METRIC:-auc}"

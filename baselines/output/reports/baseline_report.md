@@ -8,10 +8,10 @@
 ## Metric Comparison
 | Baseline | AUC | Logloss | Notes |
 | --- | --- | --- | --- |
-| A (LogReg) | 0.592966 | 0.677814 | last7 counts only |
-| B-L1 (LogReg) | 0.616020 | 0.667620 | L1 variable selection |
-| B-L2 (LogReg) | 0.616000 | 0.667627 | L2 regularization |
-| C (xgboost) | 0.594340 | 0.637833 | tree model |
+| A (LogReg) | 0.591186 | 0.679031 | last7 counts only |
+| B-L1 (LogReg) | 0.618807 | 0.668344 | L1 variable selection |
+| B-L2 (LogReg) | 0.618805 | 0.668347 | L2 regularization |
+| C (xgboost) | 0.595916 | 0.638448 | tree model |
 
 ## Baseline A Notes
 - Features: last7_buy, last7_click, last7_fav.
@@ -21,9 +21,9 @@ Top coefficients:
 
 | Feature | Coef |
 | --- | --- |
-| last7_buy | 0.229173 |
-| last7_click | 0.127380 |
-| last7_fav | 0.047344 |
+| last7_buy | 0.227559 |
+| last7_click | 0.152607 |
+| last7_fav | 0.043085 |
 
 ## Baseline B Notes
 - Features: full-window counts, last7 counts, ratio features, age/gender (one-hot).
@@ -48,27 +48,27 @@ Top L1 coefficients:
 
 | Feature | Coef |
 | --- | --- |
-| cat__gender_unk | -0.504534 |
-| cat__age_range_unk | -0.360099 |
-| cat__age_range_1.0 | -0.339662 |
-| num__last7_buy_share | 0.304838 |
-| num__recent_activity_ratio | -0.208701 |
-| num__buy_rate_total | -0.207414 |
-| cat__age_range_2.0 | -0.177647 |
-| cat__gender_2.0 | 0.168738 |
+| cat__gender_unk | -0.437364 |
+| num__last7_buy_share | 0.323048 |
+| cat__age_range_unk | -0.269201 |
+| num__buy_rate_total | -0.203347 |
+| num__recent_activity_ratio | -0.197778 |
+| cat__age_range_2.0 | -0.185205 |
+| num__click_to_buy_rate | 0.149606 |
+| cat__gender_2.0 | 0.141399 |
 
 Top L2 coefficients:
 
 | Feature | Coef |
 | --- | --- |
-| cat__gender_unk | -0.493506 |
-| cat__age_range_1.0 | -0.436766 |
-| cat__age_range_unk | -0.330078 |
-| num__last7_buy_share | 0.305037 |
-| num__recent_activity_ratio | -0.208887 |
-| num__buy_rate_total | -0.207390 |
-| cat__gender_2.0 | 0.179054 |
-| cat__age_range_5.0 | 0.170012 |
+| cat__gender_unk | -0.434345 |
+| num__last7_buy_share | 0.323184 |
+| cat__age_range_unk | -0.272330 |
+| num__buy_rate_total | -0.203303 |
+| num__recent_activity_ratio | -0.197940 |
+| cat__age_range_2.0 | -0.184828 |
+| num__click_to_buy_rate | 0.149747 |
+| cat__gender_2.0 | 0.145153 |
 
 ## Baseline C Notes
 - Tree models capture nonlinear thresholds and interactions without manual feature crosses.
@@ -79,13 +79,13 @@ Top feature importances:
 
 | Feature | Importance |
 | --- | --- |
-| num__last7_buy_share | 0.251576 |
-| num__cart_to_buy_rate | 0.107308 |
-| num__total_buy | 0.071512 |
-| num__total_action | 0.043921 |
-| cat__gender_unk | 0.032713 |
-| num__click_to_buy_rate | 0.024928 |
-| cat__age_range_2.0 | 0.024292 |
-| num__recent_activity_ratio | 0.024208 |
-| num__buy_rate_total | 0.024079 |
-| num__total_click | 0.022479 |
+| num__last7_buy_share | 0.286655 |
+| num__total_buy | 0.093000 |
+| num__cart_to_buy_rate | 0.092197 |
+| num__last7_buy | 0.046346 |
+| num__total_action | 0.040897 |
+| cat__gender_unk | 0.026612 |
+| num__recent_activity_ratio | 0.022598 |
+| cat__age_range_2.0 | 0.021184 |
+| num__total_click | 0.021151 |
+| num__buy_rate_total | 0.020620 |

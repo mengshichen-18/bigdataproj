@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import StratifiedGroupKFold
 from sklearn.preprocessing import OneHotEncoder
 
 from build_features import (
@@ -85,10 +85,34 @@ def train_baseline_c(train_feat: pd.DataFrame, out_dir: Path, model_name: str):
     numeric_features = get_numeric_features()
     X = train_feat[numeric_features + CATEGORICAL_FEATURES]
     y = train_feat["label"].values
+    groups = train_feat["user_id"].values
 
-    X_train, X_val, y_train, y_val = train_test_split(
-        X, y, test_size=0.2, random_state=RANDOM_STATE, stratify=y
-    )
+    cv = StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=RANDOM_STATE)
+    oof = np.zeros(len(y), dtype=np.float32)
+    for tr_idx, va_idx in cv.split(X, y, groups):
+        preprocess = ColumnTransformer(
+            transformers=[
+                ("num", SimpleImputer(strategy="median"), numeric_features),
+                (
+                    "cat",
+                    OneHotEncoder(handle_unknown="ignore"),
+                    CATEGORICAL_FEATURES,
+                ),
+            ]
+        )
+
+        X_train_t = preprocess.fit_transform(X.iloc[tr_idx])
+        X_val_t = preprocess.transform(X.iloc[va_idx])
+
+        pos = y[tr_idx].sum()
+        neg = len(tr_idx) - pos
+        scale_pos_weight = neg / max(pos, 1)
+
+        model = build_tree_model(model_name, scale_pos_weight)
+        model.fit(X_train_t, y[tr_idx])
+        oof[va_idx] = model.predict_proba(X_val_t)[:, 1]
+
+    metrics = evaluate_probs(y, oof)
 
     preprocess = ColumnTransformer(
         transformers=[
@@ -100,19 +124,12 @@ def train_baseline_c(train_feat: pd.DataFrame, out_dir: Path, model_name: str):
             ),
         ]
     )
-
-    X_train_t = preprocess.fit_transform(X_train)
-    X_val_t = preprocess.transform(X_val)
-
-    pos = y_train.sum()
-    neg = len(y_train) - pos
+    X_all_t = preprocess.fit_transform(X)
+    pos = y.sum()
+    neg = len(y) - pos
     scale_pos_weight = neg / max(pos, 1)
-
     model = build_tree_model(model_name, scale_pos_weight)
-    model.fit(X_train_t, y_train)
-
-    probs = model.predict_proba(X_val_t)[:, 1]
-    metrics = evaluate_probs(y_val, probs)
+    model.fit(X_all_t, y)
 
     feature_names = preprocess.get_feature_names_out()
     if hasattr(model, "feature_importances_"):

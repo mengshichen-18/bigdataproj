@@ -1,106 +1,106 @@
 {
   "metrics": {
     "baseline_a": {
-      "auc": 0.5929663941369975,
-      "logloss": 0.6778143981882391
+      "auc": 0.591186068233814,
+      "logloss": 0.6790307676660284
     },
     "baseline_b_l1": {
-      "auc": 0.6160204035985359,
-      "logloss": 0.6676203386586507
+      "auc": 0.6188074084469224,
+      "logloss": 0.6683444908004132
     },
     "baseline_b_l2": {
-      "auc": 0.6159998283583383,
-      "logloss": 0.6676272782725794
+      "auc": 0.6188048010942165,
+      "logloss": 0.6683472763928489
     },
     "baseline_b_l1_avg": {
-      "auc": 0.6208743459521527,
-      "logloss": 0.6677119451691563
+      "auc": 0.6208747811360823,
+      "logloss": 0.6677119316025678
     },
     "baseline_c": {
-      "auc": 0.594340167406298,
-      "logloss": 0.6378331340234331
+      "auc": 0.5959156874040492,
+      "logloss": 0.6384484137685108
     }
   },
   "baseline_a_top_coef": [
     {
       "feature": "last7_buy",
-      "coef": 0.2291725238695808
+      "coef": 0.22755923541223996
     },
     {
       "feature": "last7_click",
-      "coef": 0.12738010245094064
+      "coef": 0.1526074419881093
     },
     {
       "feature": "last7_fav",
-      "coef": 0.0473443809817153
+      "coef": 0.04308485168087604
     }
   ],
   "baseline_b_l1_top_coef": [
     {
       "feature": "cat__gender_unk",
-      "coef": -0.5045337384224059
-    },
-    {
-      "feature": "cat__age_range_unk",
-      "coef": -0.36009917254421386
-    },
-    {
-      "feature": "cat__age_range_1.0",
-      "coef": -0.3396619114931939
+      "coef": -0.4373639546466485
     },
     {
       "feature": "num__last7_buy_share",
-      "coef": 0.304838206716595
+      "coef": 0.3230480053872641
     },
     {
-      "feature": "num__recent_activity_ratio",
-      "coef": -0.20870097504896784
+      "feature": "cat__age_range_unk",
+      "coef": -0.26920062178929666
     },
     {
       "feature": "num__buy_rate_total",
-      "coef": -0.20741351858354545
+      "coef": -0.20334674445589992
+    },
+    {
+      "feature": "num__recent_activity_ratio",
+      "coef": -0.1977775407058141
     },
     {
       "feature": "cat__age_range_2.0",
-      "coef": -0.17764669429453125
+      "coef": -0.18520530779828023
+    },
+    {
+      "feature": "num__click_to_buy_rate",
+      "coef": 0.14960619782238754
     },
     {
       "feature": "cat__gender_2.0",
-      "coef": 0.16873801132784857
+      "coef": 0.14139887176772842
     }
   ],
   "baseline_b_l2_top_coef": [
     {
       "feature": "cat__gender_unk",
-      "coef": -0.4935064079458879
-    },
-    {
-      "feature": "cat__age_range_1.0",
-      "coef": -0.43676551900267724
-    },
-    {
-      "feature": "cat__age_range_unk",
-      "coef": -0.3300776614346736
+      "coef": -0.4343451721009438
     },
     {
       "feature": "num__last7_buy_share",
-      "coef": 0.3050367385487341
+      "coef": 0.3231842118609953
     },
     {
-      "feature": "num__recent_activity_ratio",
-      "coef": -0.20888737497084742
+      "feature": "cat__age_range_unk",
+      "coef": -0.2723302384466166
     },
     {
       "feature": "num__buy_rate_total",
-      "coef": -0.20739045780785942
+      "coef": -0.20330277327631346
+    },
+    {
+      "feature": "num__recent_activity_ratio",
+      "coef": -0.19793999357836528
+    },
+    {
+      "feature": "cat__age_range_2.0",
+      "coef": -0.1848279646599484
+    },
+    {
+      "feature": "num__click_to_buy_rate",
+      "coef": 0.14974707215557462
     },
     {
       "feature": "cat__gender_2.0",
-      "coef": 0.17905421761943485
-    },
-    {
-      "feature": "cat__age_range_5.0",
-      "coef": 0.1700115889045801
+      "coef": 0.14515261512597635
     }
   ],
   "l1_stability": [
@@ -158,43 +158,43 @@
   "baseline_c_top_importance": [
     {
       "feature": "num__last7_buy_share",
-      "importance": 0.25157630443573
-    },
-    {
-      "feature": "num__cart_to_buy_rate",
-      "importance": 0.1073075458407402
+      "importance": 0.2866554260253906
     },
     {
       "feature": "num__total_buy",
-      "importance": 0.0715116336941719
+      "importance": 0.0930001512169838
+    },
+    {
+      "feature": "num__cart_to_buy_rate",
+      "importance": 0.09219729900360107
+    },
+    {
+      "feature": "num__last7_buy",
+      "importance": 0.04634622484445572
     },
     {
       "feature": "num__total_action",
-      "importance": 0.043921031057834625
+      "importance": 0.04089684784412384
     },
     {
       "feature": "cat__gender_unk",
-      "importance": 0.03271276131272316
-    },
-    {
-      "feature": "num__click_to_buy_rate",
-      "importance": 0.02492828480899334
-    },
-    {
-      "feature": "cat__age_range_2.0",
-      "importance": 0.024292463436722755
+      "importance": 0.02661191113293171
     },
     {
       "feature": "num__recent_activity_ratio",
-      "importance": 0.024208199232816696
+      "importance": 0.02259848639369011
     },
     {
-      "feature": "num__buy_rate_total",
-      "importance": 0.02407851815223694
+      "feature": "cat__age_range_2.0",
+      "importance": 0.02118382230401039
     },
     {
       "feature": "num__total_click",
-      "importance": 0.022479115054011345
+      "importance": 0.021151382476091385
+    },
+    {
+      "feature": "num__buy_rate_total",
+      "importance": 0.020620351657271385
     }
   ],
   "tree_model": "xgboost"
